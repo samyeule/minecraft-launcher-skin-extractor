@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Set custom Minecraft installation folder path here
+// Set custom Minecraft launcher installation folder path here
 // ex: let minecraft = 'C:\Users\user\AppData\Roaming\.minecraft';
 let minecraft;
 
