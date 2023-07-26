@@ -7,7 +7,8 @@ npm run start
 ```
 
 Note:\
-Because I use Windows, this script is untested on Mac OS and is not supported on Linux due to there being multiple ways to install the game and therefore multiple places where the game could be installed.\If you are using Linux, you know where the launcher is installed, and want to use the script, simply open the index.js file and change the `minecraft` variable to where the launcher is installed.  
+Because I use Windows, this script is untested on Mac OS and is not supported on Linux due to there being multiple ways to install the game and therefore multiple places where the game could be installed.\
+If you are using Linux, you know where the launcher is installed, and want to use the script, simply open the index.js file and change the `minecraft` variable to where the launcher is installed.  
 \
 If you're on Mac OS and the script doesn't work, then please open an issue containing your OS version and where your Minecraft installation folder is located.\
 \
