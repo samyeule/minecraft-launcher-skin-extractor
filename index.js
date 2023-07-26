@@ -2,10 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Set custom Minecraft installation folder path here
-// ex: 'C:\Users\user\AppData\Roaming\.minecraft'
+// ex: let minecraft = 'C:\Users\user\AppData\Roaming\.minecraft';
 let minecraft;
-
-const throwError = (str) => {throw new Error(`\x1b[91m${str}\x1b[0m`)};
 
 if (!minecraft) {
     switch (process.platform) {
@@ -19,6 +17,9 @@ if (!minecraft) {
             throwError('It seems that you may be using Linux. Unfortunately, Linux is currently not supported. Read the repo page for more info.');
     }
 }
+
+const throwError = (str) => {throw new Error(`\x1b[91m${str}\x1b[0m`)};
+
 if (!fs.existsSync(minecraft)) throwError('Your Minecraft installation folder was not found.');
 
 const skinsFile = 
