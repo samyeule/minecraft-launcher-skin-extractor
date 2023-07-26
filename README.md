@@ -11,7 +11,7 @@ Because I use Windows, this script is untested on Mac OS and is not supported on
 \
 If you're on Mac OS and the script doesn't work, then please open an issue containing your OS version and where your Minecraft installation folder is located.\
 \
-If you're on Linux and would like to contribute, then please open an issue containing what distro you're using, how you installed the game, and where your Minecraft installation folder is located.
+If you're on Linux and would like to contribute, then please open an issue containing what distro you're using, how you installed the game (AUR, .deb, snap, etc.), and where your Minecraft installation folder is located.
 
 This script contains modified code from helensy's base64-to-image package:\
 https://github.com/helensy/base64-to-image
