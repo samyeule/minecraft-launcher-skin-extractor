@@ -5,6 +5,8 @@ const path = require('path');
 // ex: 'C:\Users\user\AppData\Roaming\.minecraft'
 let minecraft;
 
+const throwError = (str) => {throw new Error(`\x1b[91m${str}\x1b[0m`)};
+
 if (!minecraft) {
     switch (process.platform) {
         case 'win32':
@@ -14,18 +16,20 @@ if (!minecraft) {
             minecraft = `${process.env.HOME}/Library/Application Support/minecraft`;
             break;
         default:
-            throw new Error('It seems that you may be using Linux. Unfortunately, Linux is currently not supported. Read the repo page for more info.')
+            throwError('It seems that you may be using Linux. Unfortunately, Linux is currently not supported. Read the repo page for more info.');
     }
 }
+if (!fs.existsSync(minecraft)) throwError('Your Minecraft installation folder was not found.');
 
-if (!fs.existsSync(minecraft)) throw new Error('Your Minecraft installation folder was not found.');
-console.log(minecraft);
+const skinsFile = 
+       (fs.existsSync(`${minecraft}/launcher_custom_skins.json`) && fs.readFileSync(`${minecraft}/launcher_custom_skins.json`))
+    || (fs.existsSync(`${minecraft}/launcher_skins.json`) && fs.readFileSync(`${minecraft}/launcher_skins.json`))
+    || null;
+if (!skinsFile) throwError('Skins file does not exist.');
 
-const skinsFile = fs.readFileSync((fs.existsSync(`${minecraft}/launcher_custom_skins.json`) && `${minecraft}/launcher_custom_skins.json`) || `${minecraft}/launcher_skins.json`, {encoding: 'utf8'});
-if (!skinsFile) throw new Error('Skins file does not exist.');
-
-const skinsJSON = JSON.parse(skinsFile);
-if (!skinsJSON) throw new Error('Skins file contains invalid JSON.');
+let skinsJSON;
+try { skinsJSON = JSON.parse(skinsFile); }
+catch (_) { throwError('Skins file contains invalid JSON.'); }
 
 /**
  * Credit: https://github.com/helensy/base64-to-image
@@ -41,7 +45,7 @@ const createFile = (base64, options) => new Promise((res) => {
 
 	const buffer = (() => {
         const matches = base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-        if (!matches || matches.length !== 3) throw new Error('Invalid Base64 string');
+        if (!matches || matches.length !== 3) throwError('Invalid Base64 string');
 
         return {
             type: matches[1],
@@ -59,9 +63,7 @@ const createFile = (base64, options) => new Promise((res) => {
 	}
 
 	abs = path.join(options.outputPath, fileName);
-	fs.writeFileSync(abs, buffer.data, 'base64', ((err) => {
-		throw new Error(`Failed to write image file:\n${JSON.stringify(err)}`);
-	}));
+	fs.writeFileSync(abs, buffer.data, 'base64', ((err) => { throwError(`Failed to write image file: \x1b[0m \n${JSON.stringify(err)}`) }));
 
     return res(fileName);
 });
@@ -69,6 +71,8 @@ const createFile = (base64, options) => new Promise((res) => {
 (async () => {
     for (const [_, v] of Object.entries(skinsJSON['customSkins'])) {
         const image = await createFile(v['skinImage'], {fileName: v['name']});
-        console.log(`\x1b[32m Successfully created skin file "${image}" \x1b[0m`)
+        console.log(`\x1b[32mSuccessfully created skin file "${image}"\x1b[0m`)
     }
+
+    console.log('\x1b[32m \nExtraction complete! Check the "output" folder for your skins.\n\x1b[0m')
 })();
