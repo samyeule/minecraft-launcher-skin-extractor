@@ -1,7 +1,7 @@
 
 ### Your skins in the Minecraft launcher are stored in Base64. This is a simple Node.js script to extract them and turn them back into PNG files.
 
-To extract your skins, simply clone this repository, open the folder, and run this script:
+To extract your skins, simply clone this repository, open the folder, and run this script in any terminal:
 ```
 npm run start
 ```
